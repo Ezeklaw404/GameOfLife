@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GameOfLife.MainPage">
+
+    
+    <Grid RowDefinitions="*, 9*">
+
+
+        <HorizontalStackLayout HeightRequest="45" Spacing="10">
+
+            <Stepper x:Name="_GridColumn" Value="25" Minimum="10" Increment="1" Maximum="100" ValueChanged="_GridSizeValueChanged"></Stepper>
+            <Entry x:Name="_EtryGridColumn" Text="{Binding x:DataType='Stepper', Source={x:Reference _GridColumn}, Path=Value}" Margin="0, 0, 15, 0"></Entry>
+            <Stepper x:Name="_GridRow" Value="25" Minimum="10" Increment="1" Maximum="100" ValueChanged="_GridSizeValueChanged"></Stepper>
+            <Entry x:Name="_EtryGridRow" Text="{Binding x:DataType='Stepper', Source={x:Reference _GridRow}, Path=Value}" Margin="0, 0, 15, 0"></Entry>
+
+            <Button x:Name="btnStep" Text="Step" Clicked="btnStep_Clicked"></Button>
+            <Button x:Name="btnPlay" Text="play" Clicked="btnPlay_Clicked"></Button>
+            <Button x:Name="btnRandom" Text="Randomize" Clicked="btn_Random"></Button>
+        </HorizontalStackLayout>
+
+
+            <ScrollView Orientation="Both" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" >
+
+            <Grid x:Name="_LifeGrid" VerticalOptions="Center" HorizontalOptions="Center" Padding="50">
+        </Grid>
+
+
+            
+        </ScrollView>
+        
+        
+        
+        
+    </Grid>
+
+</ContentPage>
