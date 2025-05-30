@@ -1,0 +1,29 @@
+# .NET and MAUI
+bin/
+obj/
+*.user
+*.suo
+
+# Visual Studio
+.vs/
+*.dbmdl
+*.dbproj.schemaview
+*.pdb
+
+# Build results
+Build/
+out/
+
+# User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+
+# Maui specific
+*.nupkg
+*.apk
+*.aab
+*.app
+
+# Others
+*.log
