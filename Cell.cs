@@ -31,7 +31,8 @@ namespace GameOfLife
         public SolidColorBrush CellColor => IsAlive ? new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.WhiteSmoke);
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected void OnPropertyChanged(string propertyName) 
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public Cell(byte row, byte col)
         {

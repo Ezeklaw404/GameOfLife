@@ -5,6 +5,10 @@ namespace GameOfLife
 {
     public partial class MainPage : ContentPage
     {
+        //change the "gameMode" here
+        //private LifeGameMode gameMode = new LifeGameMode(new ConwayStrategy()); //default
+        private LifeGameMode gameMode = new LifeGameMode(new DayNightLifeStrategy());
+
         List<List<Cell>> LifeGridList = new();
         private bool isPlaying = false;
         private Timer timer;
@@ -183,9 +187,9 @@ namespace GameOfLife
             {
                 foreach (var cell in i)
                 {
+                    
                     byte neighbourCount = CheckNeighborState(cell, copy);
-                    if (neighbourCount < 2 || neighbourCount > 3) cell.IsAlive = false;
-                    if (neighbourCount == 3 && !cell.IsAlive) cell.IsAlive = true;
+                    cell.IsAlive = gameMode.GetNextState(cell.IsAlive, neighbourCount);
                 }
             }
         }
