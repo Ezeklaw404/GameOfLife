@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
-    class Cell : INotifyPropertyChanged
+    public class Cell : INotifyPropertyChanged
     {
         private bool isAlive { get; set; }
 

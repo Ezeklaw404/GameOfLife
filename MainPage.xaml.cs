@@ -6,12 +6,18 @@ namespace GameOfLife
     public partial class MainPage : ContentPage
     {
         //change the "gameMode" here
-        //private LifeGameMode gameMode = new LifeGameMode(new ConwayStrategy()); //default
-        private LifeGameMode gameMode = new LifeGameMode(new DayNightLifeStrategy());
+        private ILifeRuleStrategy gameMode =
+                    new ConwayStrategy();    //default
+            //new DayNightLifeStrategy();
 
-        List<List<Cell>> LifeGridList = new();
+
+
+        private List<List<Cell>> LifeGridList = new();
+        private GameOfLifeFacade game;
+
         private bool isPlaying = false;
         private Timer timer;
+
 
         public MainPage()
         {
@@ -24,6 +30,7 @@ namespace GameOfLife
         {
             ChangeGridSize();
             GenerateGrid();
+            game = new GameOfLifeFacade(LifeGridList, gameMode);
         }
 
         public void ChangeGridSize()
@@ -169,50 +176,12 @@ namespace GameOfLife
 
 
 
-        private void Step()
-        {
-            List<List<bool>> copy = new();
 
-            foreach (var i in LifeGridList)
-            {
-                List<bool> copyInside = new();
-                copy.Add(copyInside);
-
-                foreach (var cell in i)
-                {
-                    copyInside.Add(cell.IsAlive);
-                }
-            }
-            foreach (var i in LifeGridList)
-            {
-                foreach (var cell in i)
-                {
-                    
-                    byte neighbourCount = CheckNeighborState(cell, copy);
-                    cell.IsAlive = gameMode.GetNextState(cell.IsAlive, neighbourCount);
-                }
-            }
-        }
-
-        private byte CheckNeighborState(Cell cell, List<List<bool>> copy)
-        {
-            byte count = 0;
-            if (cell.Row != 0 && cell.Col != 0 && copy[cell.Row - 1][cell.Col - 1]) count++; //top left
-            if (cell.Row != 0 && copy[cell.Row - 1][cell.Col]) count++; //top
-            if (cell.Row != 0 && cell.Col != _LifeGrid.ColumnDefinitions.Count - 1 && copy[cell.Row - 1][cell.Col + 1]) count++; //top right
-            if (cell.Col != _LifeGrid.ColumnDefinitions.Count - 1 && copy[cell.Row][cell.Col + 1]) count++; //right
-            if (cell.Row != _LifeGrid.RowDefinitions.Count -1 && cell.Col !=_LifeGrid.ColumnDefinitions.Count - 1 && copy[cell.Row + 1][cell.Col + 1]) count++; //bot tight
-            if (cell.Row != _LifeGrid.RowDefinitions.Count - 1 && copy[cell.Row + 1][cell.Col]) count++; //bot
-            if (cell.Row != _LifeGrid.RowDefinitions.Count - 1 && cell.Col != 0 && copy[cell.Row + 1][cell.Col - 1]) count++; //bot left
-            if (cell.Col != 0  && copy[cell.Row][cell.Col - 1]) count++; //left
-
-            return count;
-        }
 
 
         private void btnStep_Clicked(object sender, EventArgs e)
         {
-            Step();
+            game.Step();
         }
 
 
@@ -227,7 +196,7 @@ namespace GameOfLife
             }
             else
             {
-                timer = new Timer(_ => Device.BeginInvokeOnMainThread(Step),
+                timer = new Timer(_ => Device.BeginInvokeOnMainThread(game.Step),
                                   null, 0, 1000 / 15);
                 btnPlay.Text = "Pause";
             }
@@ -236,17 +205,18 @@ namespace GameOfLife
         }
 
 
+        //    not yet implemented
+        //private void btnClear_Clicked(object sender, EventArgs e)
+        //{
+        //    game.Clear();
+        //}
+
         private void btn_Random(object sender, EventArgs e)
         {
-            Random rand = new Random();
-            foreach (var item in LifeGridList)
-            {
-                foreach (var item1 in item)
-                {
-                    item1.IsAlive = rand.NextDouble() < 0.35;
-                }
-            }
+            game.Randomize();
         }
+
+
 
     }
 
