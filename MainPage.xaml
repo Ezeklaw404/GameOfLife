@@ -17,6 +17,7 @@
             <Button x:Name="btnStep" Text="Step" Clicked="btnStep_Clicked"></Button>
             <Button x:Name="btnPlay" Text="play" Clicked="btnPlay_Clicked"></Button>
             <Button x:Name="btnRandom" Text="Randomize" Clicked="btn_Random"></Button>
+            <Button x:Name="btnClear" Text="Clear" Clicked="btn_Clear"></Button>
         </HorizontalStackLayout>
 
 

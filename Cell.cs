@@ -9,11 +9,12 @@ namespace GameOfLife
 {
     public class Cell : INotifyPropertyChanged
     {
-        private bool isAlive { get; set; }
-
+        //Flyweight design pattern to help with the performance issues
+        public ICellState State { get; private set; }
 
         public byte Row { get; private set; }
         public byte Col { get; private set; }
+        private bool isAlive { get; set; }
         public bool IsAlive
         {
             get => isAlive;
@@ -22,13 +23,14 @@ namespace GameOfLife
                 if (isAlive != value)
                 {
                     isAlive = value;
+                    State = CellFactory.GetState(IsAlive);
                     OnPropertyChanged(nameof(IsAlive));
                     OnPropertyChanged(nameof(CellColor)); // Notify that color has changed
                 }
             }
         }
 
-        public SolidColorBrush CellColor => IsAlive ? new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.WhiteSmoke);
+        public SolidColorBrush CellColor => State.CellColor;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) 
@@ -39,6 +41,7 @@ namespace GameOfLife
             IsAlive = false;
             Row = row;
             Col = col;
+            State = CellFactory.GetState(IsAlive);
         }
 
 

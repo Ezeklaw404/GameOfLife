@@ -206,10 +206,10 @@ namespace GameOfLife
 
 
         //    not yet implemented
-        //private void btnClear_Clicked(object sender, EventArgs e)
-        //{
-        //    game.Clear();
-        //}
+        private void btn_Clear(object sender, EventArgs e)
+        {
+            game.Clear();
+        }
 
         private void btn_Random(object sender, EventArgs e)
         {
